@@ -10,10 +10,12 @@
 
 
 <ion-content padding>
-<ion-list>
-  <ion-item>Antara News</ion-item>
-	<ion-item>detik.com</ion-item>
-	<ion-item>kompas.com</ion-item>
-	<ion-item>tribun.com</ion-item>
-</ion-list>
+  <ion-list>
+    <ion-item *ngFor="let article of articles">      
+      {{article.title}}
+    </ion-item>
+  </ion-list>
+  <ion-infinite-scroll (ionInfinite)="scrollLoad($event)">
+      <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
