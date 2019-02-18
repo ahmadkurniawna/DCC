@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Media Insight Dashbord</ion-title>
+
+    <div padding class="tabs">
+        <div class="tab" [ngClass]="{ 'active' : segment === 'hottest' }" (click)="onTabSelected('hottest')">
+          <ion-icon name="flame"></ion-icon>
+          <div class="label">Media Visability</div>
+        </div>
+        <div class="tab" [ngClass]="{ 'active' : segment === 'favs' }" (click)="onTabSelected('favs')">
+          <ion-icon name="star"></ion-icon>
+          <div class="label">Coverage Tonality</div>
+        </div>
+        <div class="tab" [ngClass]="{ 'active' : segment === 'profile' }" (click)="onTabSelected('profile')">
+          <ion-icon name="person"></ion-icon>
+          <div class="label">Early Warning System</div>
+        </div>
+      </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+</ion-content>
