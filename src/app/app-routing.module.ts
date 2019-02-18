@@ -24,7 +24,10 @@ const routes: Routes = [
   path: 'login', 
   loadChildren: './login/login.module#LoginPageModule',
   // canActivate: [AppService]
-  }
+  },
+  { path: 'cliping', loadChildren: './cliping/cliping.module#ClipingPageModule' },
+  { path: 'catagory', loadChildren: './catagory/catagory.module#CatagoryPageModule' },
+  { path: 'dashbord', loadChildren: './dashbord/dashbord.module#DashbordPageModule' }
  
 ];
 

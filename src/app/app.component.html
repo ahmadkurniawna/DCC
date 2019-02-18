@@ -1,12 +1,21 @@
 <ion-app>
   <ion-split-pane>
-    <ion-menu>
-      <ion-header>
+    <ion-menu id="menu-material">
+      <!-- <ion-header>
         <ion-toolbar>
           <ion-title>Menu</ion-title>
         </ion-toolbar>
-      </ion-header>
+      </ion-header> -->
       <ion-content>
+      <div class="menu-header">
+             <!--material-design-background-->
+        <img class="user-avatar round" style="height:90px;max-width:90px;" [src]="chosenPicture || placeholder" onerror="this.src='assets/dasborddigivla.JPG'"
+        />
+        <p class="name">digivla</p>
+        <p class="e-mail">NEWS-INFORMATION-INSIGHT</p>
+      </div>
+
+
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
@@ -17,6 +26,7 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
