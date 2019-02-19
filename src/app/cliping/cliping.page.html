@@ -12,10 +12,11 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let article of articles">      
-      {{article.title}}
+      <button ion-button block (click)="openModal(article)">{{article.title}}</button>    
     </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="scrollLoad($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>
     </ion-infinite-scroll>
 </ion-content>
+

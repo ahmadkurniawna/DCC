@@ -27,7 +27,8 @@ const routes: Routes = [
   },
   { path: 'cliping', loadChildren: './cliping/cliping.module#ClipingPageModule' },
   { path: 'catagory', loadChildren: './catagory/catagory.module#CatagoryPageModule' },
-  { path: 'dashbord', loadChildren: './dashbord/dashbord.module#DashbordPageModule' }
+  { path: 'dashbord', loadChildren: './dashbord/dashbord.module#DashbordPageModule' },  { path: 'article-details', loadChildren: './article-details/article-details.module#ArticleDetailsPageModule' }
+
  
 ];
 

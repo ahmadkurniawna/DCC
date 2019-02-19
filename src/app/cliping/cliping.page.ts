@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import {environment} from '../../environments/environment';
+import { ModalController } from '@ionic/angular';
+import { ArticleDetailsPage } from '../article-details/article-details.page'
 
 @Component({
   selector: 'app-cliping',
@@ -18,7 +20,7 @@ export class ClipingPage implements OnInit {
   articles=[];
   currPage = 0;
   totalRow:number;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,public modalCtrl: ModalController) { }
 
   scrollLoad(event){
     if (this.articles.length <= this.totalRow){
@@ -30,6 +32,14 @@ export class ClipingPage implements OnInit {
     }    
   }
 
+  async openModal(article){
+    const myModal = await this.modalCtrl.create({
+      component:ArticleDetailsPage,
+      componentProps: {res:article}
+    });
+    await myModal.present();
+  }
+
   loadArticles(){
     let editingParam={
       "category_set":"0",
@@ -38,7 +48,7 @@ export class ClipingPage implements OnInit {
       "media_id":0,
       "start_date":"2019-02-17",
       "end_date":"2019-02-18",
-      "maxSize":10,
+      "maxSize":20,
       "page":this.currPage,
       "order_by":"datee",
       "order":"desc"
