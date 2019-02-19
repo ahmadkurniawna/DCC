@@ -1,28 +1,39 @@
-ion-header ion-icon {
-    font-size: 18px;
-  }
-  
-  ion-toolbar .tabs {
-    display: flex;
-    justify-content: center;
-    .tab {
-      text-align: center;
-      width: calc(100% / 3);
-      color: #265a4b;
-      &.active {
-        color: #0b2adb;
-      }
-      ion-icon {
-        font-size: 30px;
-      }
-      .label {
-        font-size: 10px;
-        margin-top: -2px;
-      }
+app-login {
+    
+}
+
+$white-color: #fff;
+$height100: 100%;
+
+ion-content{
+    background-image: '../assets/8385.jpg';
+}
+
+ion-grid {
+    width:100%;
+    height: $height100;
+    //background: #dfdfdf;
+    //background:rgba(0,0,0,0.4);
+}
+
+ion-row {
+    height: $height100;
+}
+
+ion-col {
+    border: 1px solid #488aff;
+    //background: $white-color;
+}
+
+ion-button {
+    font-weight: 300;
+}
+
+@media (min-width: 240px) and (max-width: 768px) {
+    ion-grid {
+        //background: $white-color;
     }
-  }
-  
-  ion-card {
-    width: 100%;
-  }
-  
+    ion-col {
+        border: none;
+    }
+}
