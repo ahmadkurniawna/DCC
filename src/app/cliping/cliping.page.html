@@ -12,7 +12,9 @@
 <ion-content padding>
   <ion-list>
     <ion-item *ngFor="let article of articles">      
-      <button ion-button block (click)="openModal(article)">{{article.title}}</button>    
+      <a href = "#" onclick="return false" (click)="openModal(article)">
+        {{article.title}}
+      </a>
     </ion-item>
   </ion-list>
   <ion-infinite-scroll (ionInfinite)="scrollLoad($event)">
