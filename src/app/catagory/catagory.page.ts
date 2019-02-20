@@ -1,11 +1,9 @@
-import { Component,Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-import { NgProgress,NgProgressRef } from '@ngx-progressbar/core'
-// import { navItems } from './../../_nav';
 import { environment } from '../../environments/environment'
-// import { Subscription } from 'rxjs/Subscription';
-import { ChildListenerService } from '../../app/child-listener.service';
 import { Router } from '@angular/router';
+import { ChangeDetectorRef } from '@angular/core';        
+
 
 
 
@@ -15,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./catagory.page.scss'],
 })
 export class CatagoryPage{
-  // urlenv = environment.apiUrl;
+  isLoading:boolean=true;
   user = localStorage.getItem('user')
 
   logo = {src: ('http://admin.antara-insight.id/asset/images/' + localStorage.getItem('logo')), width: 50, height: 35, alt: localStorage.getItem('user')}
@@ -48,13 +46,6 @@ export class CatagoryPage{
   private changes: MutationObserver;
   public element: HTMLElement = document.body;
 
-  progressRef: NgProgressRef
-  
-  // parentSubject:Subject<any> = new Subject();
-
-  notifyChildren() {
-    this.childListener.notifyOther({option: 'call_child', value: 'From child'});
-  }
 
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -95,62 +86,61 @@ export class CatagoryPage{
     }
   }
   
-  onGroupCategoryChange(groupCategoryValue){
+  onGroupCategoryChange(){
+    console.log('rubah')
     this.getSubCategory();
   }
-  constructor(private http: HttpClient,public progress: NgProgress,private childListener: ChildListenerService,private router: Router) {
-    this.maxDate.setDate(this.maxDate.getDate() + 7);
-    this.bsRangeValue = [this.bsValue, this.maxDate];
-    this.changes = new MutationObserver((mutations) => {
-      this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
-    });
 
-    this.changes.observe(<Element>this.element, {
-      attributes: true
-    });
+  constructor(private http: HttpClient,private router: Router,private cf: ChangeDetectorRef) {
+    // this.maxDate.setDate(this.maxDate.getDate() + 7);
+    // this.bsRangeValue = [this.bsValue, this.maxDate];
+    // this.changes = new MutationObserver((mutations) => {
+    //   this.sidebarMinimized = document.body.classList.contains('sidebar-minimized');
+    // });
+
+    // this.changes.observe(<Element>this.element, {
+    //   attributes: true
+    // });
   }
 
   // onGroupMediaChange(groupMediaValue){
   //   this.getSubMedias();
   // }
 
-  // getGroupCategory(){
-  //   interface UserResponse {
-  //     data: Object;
-  //   }
-  //   //group category
-  //   this.http.get<UserResponse>(this.url + 'user/categories/',this.options)
-  //     .subscribe((result: any) => {
-  //       // console.log(result);
-  //       this.groupCategoryOption = result.results;
-  //       this.groupCategoryOption.unshift({'client_id':result.results[0].client_id,'category_set':'0','descriptionz':'All Group Category','usere':result.results[0].usere,'input_data_date':result.results[0].input_data_date,'pc_name':result.results[0].pc_name});
-  //       // console.log(JSON.stringify(this.groupCategoryOption));
-  //       this.groupCategoryModel=this.groupCategoryOption[0].category_set;
-  //     });
-  // }
+  filter(){
+    this.router.navigateByUrl('/cliping');
+  }
+
+  getGroupCategory(){
+    return new Promise((resolve) => {   
+      interface UserResponse {
+        data: Object;
+      }
+      this.http.get<UserResponse>(this.url + 'user/categories/',this.options)
+        .subscribe((result: any) => {
+          this.groupCategoryOption = result.results;
+          this.groupCategoryModel=this.groupCategoryOption[0].category_set;
+          resolve(this.groupCategoryModel);
+        });
+    });
+  }
 
   getSubCategory() {
     interface UserResponse {
       data: Object;
     }
-    let urlExtend='user/subcategories/' + this.groupCategoryModel;
-    if (this.groupCategoryModel == '0'){
-      this.subCategoryOption = [{'client_id':'sdads','category_set':'0','category_id':'All Sub Categroy','default_set':'','usere':'dasda','input_data_date':null,'pc_name':null}];      
+    this.http.get<UserResponse>(this.url + 'user/subcategories/' + this.groupCategoryModel,this.options)
+    .subscribe((result: any) => {
+      this.subCategoryOption = result.results;                    
+      if (this.subCategoryOption.length <1){         
+        this.subCategoryOption.unshift({'client_id':this.subCategoryOption[0].client_id,'category_set':'0','category_id':'No Sub Categroy','default_set':'','usere':this.subCategoryOption[0].usere,'input_data_date':this.subCategoryOption[0].input_data_date,'pc_name':this.subCategoryOption[0].pc_name});                      
+      }else{          
+        // this.subCategoryOption.unshift({'client_id':this.subCategoryOption[0].client_id,'category_set':'0','category_id':'All Sub Categroy','default_set':'','usere':this.subCategoryOption[0].usere,'input_data_date':this.subCategoryOption[0].input_data_date,'pc_name':this.subCategoryOption[0].pc_name});      
+      }
       this.subCategoryModel = this.subCategoryOption[0].category_id;
-    }else{
-      this.http.get<UserResponse>(this.url + urlExtend,this.options)
-      .subscribe((result: any) => {
-        this.subCategoryOption = result.results;            
-        
-        // console.log(JSON.stringify(this.subCategoryOption));
-        if (this.subCategoryOption.length <1){         
-          this.subCategoryOption.unshift({'client_id':this.subCategoryOption[0].client_id,'category_set':'0','category_id':'No Sub Categroy','default_set':'','usere':this.subCategoryOption[0].usere,'input_data_date':this.subCategoryOption[0].input_data_date,'pc_name':this.subCategoryOption[0].pc_name});                      
-        }else{          
-          this.subCategoryOption.unshift({'client_id':this.subCategoryOption[0].client_id,'category_set':'0','category_id':'All Sub Categroy','default_set':'','usere':this.subCategoryOption[0].usere,'input_data_date':this.subCategoryOption[0].input_data_date,'pc_name':this.subCategoryOption[0].pc_name});      
-        }
-        this.subCategoryModel = this.subCategoryOption[0].category_id;
-      });
-    }    
+      this.cf.detectChanges();
+      this.isLoading = false;
+    });    
   }
 
   // getMediaGroup() {
@@ -188,21 +178,9 @@ export class CatagoryPage{
   // }
 
   ngOnInit(): void {
-    // this.progressRef = this.progress.ref();
-
-    // this.progressRef.start();
-    //group category
-    // this.getGroupCategory();
-
-    //sub category
-    this.getSubCategory();    
-
-    //get media
-    // this.getMediaGroup();
-
-    //get submedia
-    //this.getSubMedias();
-
-    // this.progressRef.complete();
+    this.isLoading = true;
+    this.getGroupCategory().then((res)=>{
+      this.onGroupCategoryChange();
+    });
   } 
 }
