@@ -3,7 +3,7 @@
 
     <ion-row>
         <ion-col size="1" style="text-align:left;"> 
-            <div (click)="dismiss();"><i class="fas fa-chevron-left"></i></div>
+            <div (click)="goToHome();"><i class="fas fa-chevron-left"></i></div>
           </ion-col>
       <ion-col size="10"> 
           <!-- ion-card-title ion-title -->
@@ -41,20 +41,13 @@
                 </ion-select-option> 
               </ion-select>
             </ion-row>
-          <!-- <ion-item>
-              <ion-label>place</ion-label>
-              <ion-select [(ngModel)]="subCategoryModel">
-                  <ion-select-option value="Opsi.category_id" *ngFor="let Opsi of subCategoryOption">
-                    {{Opsi.category_id}}
-                  </ion-select-option> 
-              </ion-select>
-            </ion-item>
- -->
+
             <ion-row Padding>
               <ion-label><b>Priode</b></ion-label>
             </ion-row>
             <ion-row>
-              <ion-select class="myCustomSelect" value="1" okText="Ok" cancelText="Cencel">
+              <!-- <ion-select class="myCustomSelect" value="1" okText="Ok" cancelText="Cencel"> -->
+              <ion-select class="myCustomSelect" (ionChange)="onChange($event.target.value)" [(ngModel)]="periodModel" okText="Ok" cancelText="Cencel">
                 <ion-select-option value="1">Yesterday</ion-select-option>
                 <ion-select-option value="2">Last Week</ion-select-option>
                 <ion-select-option value="3">Last Month</ion-select-option>

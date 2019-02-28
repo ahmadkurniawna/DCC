@@ -1,26 +1,31 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment'
 import { Router } from '@angular/router';
-import { ChangeDetectorRef } from '@angular/core';        
+import { ChangeDetectorRef } from '@angular/core';    
+import { ChildListenerService } from '../child-listener.service';    
+import { AppComponent } from '../app.component'
+import { createOfflineCompileUrlResolver } from '@angular/compiler';
 
+import { NavController, NavParams } from '@ionic/angular';
 
 
 
 @Component({
   selector: 'app-catagory',
   templateUrl: './catagory.page.html',
-  styleUrls: ['./catagory.page.scss'],
+  styleUrls: ['./catagory.page.scss']
+  // providers: [AppComponent]
 })
 export class CatagoryPage{
   isLoading:boolean=true;
   user = localStorage.getItem('user')
 
-  logo = {src: ('http://admin.antara-insight.id/asset/images/' + localStorage.getItem('logo')), width: 50, height: 35, alt: localStorage.getItem('user')}
+  // logo = {src: ('http://admin.antara-insight.id/asset/images/' + localStorage.getItem('logo')), width: 50, height: 35, alt: localStorage.getItem('user')}
   url=environment.apiUrl;
 
   groupCategoryOption: any[]=[];
-  groupCategoryModel='778';
+  groupCategoryModel='0';
 
   subCategoryOption: any[]=[];
   subCategoryModel='All Sub Categroy';
@@ -42,10 +47,32 @@ export class CatagoryPage{
   maxDate = new Date();
  
   // public navItems = navItems;
-  public sidebarMinimized = true;
-  private changes: MutationObserver;
-  public element: HTMLElement = document.body;
 
+  // public sidebarMinimized = true;
+  // private changes: MutationObserver;
+  // public element: HTMLElement = document.body;
+
+
+  // @ViewChild('filter') public filter;
+
+  filter(){
+    // this.childListener.notifyOther({option: 'call_child', value: 'Test'});
+    this.parent.groupCategoryModel = this.groupCategoryModel;
+    this.parent.subCategoryModel = this.subCategoryModel;
+    this.parent.periodFromModel = this.periodFromModel;
+    this.parent.periodEndModel = this.periodEndModel;
+
+    this.parent.isDirect = false;
+    console.log('ini yg dari category catagory : ' + this.parent.isDirect)
+    console.log('ini nilai groupcatagory catagory : ' + this.parent.groupCategoryModel)
+    console.log('ini nilai subCategoryModel catagory : ' + this.parent.subCategoryModel)
+    console.log('ini nilai periodFromModel catagory : ' + this.parent.periodFromModel)
+    console.log('ini nilai periodEndModel catagory : ' + this.parent.periodEndModel)
+    
+    this.router.navigateByUrl('/cliping');
+    // this.router.navigateByUrl('/by-category');
+    // console.log('pindah page')
+  }
 
   headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -64,6 +91,7 @@ export class CatagoryPage{
   }
   
   onChange(deviceValue) {
+    console.log(deviceValue);
     if(deviceValue == 1){      
       // console.log(this.addDays(this.today,-1));
       this.periodFromModel = this.addDays(this.today,-1);
@@ -91,7 +119,7 @@ export class CatagoryPage{
     this.getSubCategory();
   }
 
-  constructor(private http: HttpClient,private router: Router,private cf: ChangeDetectorRef) {
+  constructor(private parent : AppComponent,private http: HttpClient,private router: Router,private cf: ChangeDetectorRef, private childListener: ChildListenerService) {
     // this.maxDate.setDate(this.maxDate.getDate() + 7);
     // this.bsRangeValue = [this.bsValue, this.maxDate];
     // this.changes = new MutationObserver((mutations) => {
@@ -101,16 +129,23 @@ export class CatagoryPage{
     // this.changes.observe(<Element>this.element, {
     //   attributes: true
     // });
-  }
+  // }
 
   // onGroupMediaChange(groupMediaValue){
   //   this.getSubMedias();
-  // }
 
-  filter(){
-    this.router.navigateByUrl('/cliping');
+  this.isLoading = true;
+    this.getGroupCategory().then((res)=>{
+      this.onGroupCategoryChange();
+    });
   }
 
+
+
+//  filter(){
+//     this.router.navigateByUrl('/cliping');
+//   }
+  
   getGroupCategory(){
     return new Promise((resolve) => {   
       interface UserResponse {
@@ -177,10 +212,15 @@ export class CatagoryPage{
   //   });
   // }
 
-  ngOnInit(): void {
-    this.isLoading = true;
-    this.getGroupCategory().then((res)=>{
-      this.onGroupCategoryChange();
-    });
-  } 
+
+  goToHome(){
+    this.router.navigateByUrl('/home');
+  }
+
+  // ngOnInit(): void {
+  //   this.isLoading = true;
+  //   this.getGroupCategory().then((res)=>{
+  //     this.onGroupCategoryChange();
+  //   });
+  // } 
 }

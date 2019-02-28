@@ -4,8 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
+import { ChartsModule } from 'ng2-charts';
+
 
 import { DashbordPage } from './dashbord.page';
+// import { DashbordPageRoutingModule } from './dashbord.router.module'
+import { MediaVPageModule } from '../media-v/media-v.module'
 
 const routes: Routes = [
   {
@@ -17,9 +21,12 @@ const routes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
+    // DashbordPageRoutingModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    // MediaVPageModule
+    ChartsModule
   ],
   declarations: [DashbordPage]
 })

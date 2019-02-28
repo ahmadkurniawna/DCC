@@ -1,17 +1,19 @@
 <ion-header>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
   <ion-toolbar color="primary">
     <ion-title>Media Insight Dashbord</ion-title>
 
     <div padding class="tabs">
-        <div class="tab" [ngClass]="{ 'active' : segment === 'hottest' }" (click)="onTabSelected('hottest')">
+        <div class="tab" (click)="onTabSelected('1')">
           <ion-icon name="flame"></ion-icon>
           <div class="label">Media Visability</div>
         </div>
-        <div class="tab" [ngClass]="{ 'active' : segment === 'favs' }" (click)="onTabSelected('favs')">
+        <div class="tab" (click)="onTabSelected('2')">
           <ion-icon name="star"></ion-icon>
           <div class="label">Coverage Tonality</div>
         </div>
-        <div class="tab" [ngClass]="{ 'active' : segment === 'profile' }" (click)="onTabSelected('profile')">
+        <div class="tab"  (click)="onTabSelected('3')">
           <ion-icon name="person"></ion-icon>
           <div class="label">Early Warning System</div>
         </div>
@@ -20,5 +22,56 @@
 </ion-header>
 
 <ion-content padding>
-
+  <div *ngIf="panel1">
+      <!-- <ion-content padding>  -->
+          <h2>Business Charts</h2>
+          <div>
+              <div>
+                <canvas baseChart height="350"
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        [chartType]="barChartType"
+                        (chartHover)="chartHovered($event)"
+                        (chartClick)="chartClicked($event)"></canvas>
+              </div>
+            </div>   
+      
+      <!-- </ion-content> -->
+  <!-- <app-media-v></app-media-v> -->
+  </div>
+ 
+  <div *ngIf="panel2">2</div>
+  <div *ngIf="panel3">3</div>
 </ion-content>
+
+
+<!-- <ion-tabs>
+  <ion-tab-bar slot="bottom"  color = "primary">
+    
+    <ion-tab-button tab="media-v" (click)="setMediaV()">
+      <ion-icon name="apps"></ion-icon>
+      
+      <ion-label>Media Visibility</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="media-v">
+      <ion-icon name="apps"></ion-icon>
+      <ion-label>Coverage Tonality</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="media-v">
+      <ion-icon name="apps"></ion-icon>
+      <ion-label>Early Warning System</ion-label>
+    </ion-tab-button>
+
+     </ion-tab-bar>
+
+
+</ion-tabs> -->
+
+
+
+
+
